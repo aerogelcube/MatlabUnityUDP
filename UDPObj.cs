@@ -7,7 +7,8 @@ Code pulled from here and modified
 
 Unity3D to MATLAB UDP communication 
 
-Modified by: Sandra Fang 2016
+Modified by: Sandra Fang 
+2016
 */
 using UnityEngine;
 using System.Collections;
@@ -42,7 +43,7 @@ public class UDPObj : MonoBehaviour
 	public string allReceivedUDPPackets = "";
 	// clear this from time to time!
 
-	// start from unity3d
+	// start from Unity3d
 	public void Start ()
 	{
 		init ();
@@ -72,12 +73,11 @@ public class UDPObj : MonoBehaviour
 		// Initialize (seen in comments window)
 		print ("UDP Object init()");
 
-		// create remote endpoint (to matlab) 
+		// Create remote endpoint (to Matlab) 
 		remoteEndPoint = new IPEndPoint (IPAddress.Parse (IP), portRemote);
 
-		// create local client
+		// Create local client
 		client = new UdpClient (portLocal);
-
 
 		// local endpoint define (where messages are received)
 		// Create a new thread for reception of incoming messages
@@ -93,13 +93,9 @@ public class UDPObj : MonoBehaviour
 		while (true) {
 
 			try {
-				// Bytes empfangen.
 				IPEndPoint anyIP = new IPEndPoint (IPAddress.Any, 0);
 				byte[] data = client.Receive (ref anyIP);
-
-				//UTF8 encoding in text format .
 				string text = Encoding.UTF8.GetString (data);
-
 				print (">> " + text);
 				lastReceivedUDPPacket = text;
 				allReceivedUDPPackets = allReceivedUDPPackets + text;
@@ -114,12 +110,9 @@ public class UDPObj : MonoBehaviour
 	private void sendData (string message)
 	{
 		try {
-			// Daten mit der UTF8-Kodierung in das Binärformat kodieren.
 			byte[] data = Encoding.UTF8.GetBytes (message);
-
-			// Den message zum Remote-Client senden.
 			client.Send (data, data.Length, remoteEndPoint);
-			//}
+			
 		} catch (Exception err) {
 			print (err.ToString ());
 		}
